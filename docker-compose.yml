@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx
+    ports:
+      - "8008:80"
+    volumes:
+      - closure-out:/usr/share/nginx/html/out
+      - ./index.html:/usr/share/nginx/html/index.html
+    depends_on:
+      - closure-compiler
+
+  closure-compiler:
+    image: jborza/closure-compiler
+    volumes:
+      - closure-out:/app/out
+      - ./src:/app/in
+    command:
+      - --js_output_file=/app/out/main.js
+      - --create_source_map=/app/out/main.js.map
+      - /app/in/**.js
+
+volumes:
+  closure-out:
