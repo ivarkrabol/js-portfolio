@@ -27,8 +27,7 @@ deploy:
     - apk update && apk add --no-cache sshpass openssh
     - sshpass -V
     - export SSHPASS=$USER_PASS
-    - ls -la
-    - which scp
-    - sshpass -e scp -o stricthostkeychecking=no index.html out/main.js ivar@scp.domeneshop.no:/www/
+    - sshpass -e scp -o stricthostkeychecking=no index.html ivar@scp.domeneshop.no:/www/index.html
+    - sshpass -e scp -o stricthostkeychecking=no out/main.js ivar@scp.domeneshop.no:/www/out/main.js
   dependencies:
     - closure-compiler
