@@ -10,7 +10,7 @@ stages:
 closure-compiler:
   stage: build
   script:
-    - apk add --no-cache py-pip
+    - apk update && apk add --no-cache py-pip
     - pip install docker-compose
     - mkdir out
     - sed -i 's#- closure-out#- ./out#' docker-compose.yml
@@ -24,8 +24,11 @@ closure-compiler:
 deploy:
   stage: deploy
   script:
+    - apk update && apk add --no-cache sshpass openssh
     - sshpass -V
     - export SSHPASS=$USER_PASS
+    - ls -la
+    - which scp
     - sshpass -e scp -o stricthostkeychecking=no index.html out/main.js ivar@scp.domeneshop.no:/www/
   dependencies:
     - closure-compiler
