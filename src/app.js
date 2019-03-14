@@ -8,19 +8,14 @@ class App {
 
 		this.graphics = new Graphics(this.rootElement, width, height);
 		this.graphics.draw();
-		
-		this.dialog('Hello world!!!\n==============\nWelcome to this, the holiest of sites!');
 
 		this.updateInterval = setInterval(() => this.update(), 1000.0 / fps);
 	}
 
 	update() {
+		this.graphics.dialog('Hello world!\n============\nHome of Ivar. He codes.');
 		this.graphics.draw();
-	}
-
-	dialog(text) {
-		this.graphics.dialog(text);
 	}
 }
 
-window.onload = () => new App('#main', window.innerWidth / 7, window.innerHeight / 12, 12);
+window.onload = () => new App('#main', Math.min(window.innerWidth, 1200) / 7, window.innerHeight / 12, 12);

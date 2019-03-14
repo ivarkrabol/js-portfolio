@@ -8,7 +8,6 @@ class Layer {
 	}
 
 	setContent(x, y, content) {
-		console.log(x, y, content);
 		if (Array.isArray(content)) content = content.join('\n');
 		while (content.charAt(0) === '\n') content = content.substr(1);
 		while (content.charAt(content.length - 1) === '\n') content = content.substr(0, content.length - 1);

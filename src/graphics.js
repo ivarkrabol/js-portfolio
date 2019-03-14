@@ -1,4 +1,5 @@
 import Layer from './layer.js';
+import Time from './time.js';
 
 class Graphics {
 	constructor($root, width, height) {
@@ -19,7 +20,6 @@ class Graphics {
 			this.$rows.push($row);
 			this.$root.appendChild(this.$rows[i]);
 		}
-
 	}
 
 	draw() {
@@ -39,8 +39,9 @@ class Graphics {
 	}
 
 	drawLayerRow(rowIndex, content) {
-		const $row = this.$rows[rowIndex];
-		const oldContent = $row.innerHTML;
+		const
+				$row       = this.$rows[rowIndex],
+				oldContent = $row.innerHTML;
 		let newContent = '';
 		for (let i = 0; i < this.width; i++) {
 			const contentChar = content.charAt(i);
@@ -61,26 +62,28 @@ class Graphics {
 		if (!this.layers.has(layerKey)) {
 			this.layers.set(layerKey, new Layer(this.height));
 		}
-
 		this.layers.get(layerKey).setContent(x, y, content);
 	}
 
 	frame(x, y, width, height, layerKey = 1) {
-		const hr = '+' + '-'.repeat(width - 3) + '+';
+		const
+				offset = Math.floor(Time.getTime() * 4) % 4,
+				hr     = '~¤~ ~¤~'.substr(offset, 4).repeat(width - 3),
+				top    = '+' + hr.substr(0, width - 3) + '+\n',
+				middle = ('|' + '\0'.repeat(width - 3) + '|\\\n').repeat(height - 3),
+				bottom = '+' + hr.substr(offset * 2, width - 3) + '+\\\n' + ' ' + '\\'.repeat(width - 1);
 		this.setLayerContent(
 				x,
 				y,
-				hr + '\n'
-						+ ('|' + '\0'.repeat(width - 3) + '|\\\n').repeat(height - 3) + hr + '\\\n'
-						+ ' ' + '\\'.repeat(width - 1),
+				top + middle + bottom,
 				layerKey
 		);
 	}
 
 	dialog(text) {
-		console.log(text);
-		const x = Math.floor(this.width / 2) - 23;
-		const y = Math.floor(this.height / 2) - 5;
+		const
+				x = Math.floor(this.width / 2) - 23,
+				y = Math.floor(this.height / 2) - 5;
 		this.frame(x, y, 46, 8);
 		this.setLayerContent(
 				x + 3,
