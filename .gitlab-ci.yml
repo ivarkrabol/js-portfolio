@@ -1,0 +1,31 @@
+image: docker
+
+services:
+  - 'docker:dind'
+
+stages:
+  - build
+  - deploy
+
+closure-compiler:
+  stage: build
+  script:
+    - apk add --no-cache py-pip
+    - pip install docker-compose
+    - mkdir out
+    - sed -i 's#- closure-out#- ./out#' docker-compose.yml
+    - docker-compose run closure-compiler
+  artifacts:
+    paths:
+      - out/main.js
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - sshpass -V
+    - export SSHPASS=$USER_PASS
+    - sshpass -e scp -o stricthostkeychecking=no index.html out/main.js ivar@scp.domeneshop.no:/www/
+  dependencies:
+    - closure-compiler
