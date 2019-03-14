@@ -13,7 +13,7 @@ class App {
 	}
 
 	update() {
-		this.graphics.dialog('Hello world!\n============\nHome of Ivar. He codes, sometimes.');
+		this.graphics.dialog('Hello world!\n============\nHome of Ivar. He codes.');
 		this.graphics.draw();
 	}
 }
