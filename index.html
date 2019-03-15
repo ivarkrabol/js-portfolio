@@ -16,7 +16,12 @@
 		}
 	</style>
 
-	<script src="out/main.js"></script>
+	<script type="module">
+		import App from './src/app.js'
+		window.onload = () => {
+		    new App('#main', Math.min(window.innerWidth, 1200) / 7, window.innerHeight / 12, 12)
+		};
+	</script>
 </head>
 <body>
 <div id="main"></div>

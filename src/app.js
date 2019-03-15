@@ -18,4 +18,4 @@ class App {
 	}
 }
 
-window.onload = () => new App('#main', Math.min(window.innerWidth, 1200) / 7, window.innerHeight / 12, 12);
+export default App;

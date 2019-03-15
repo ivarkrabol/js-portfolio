@@ -1,6 +1,6 @@
 #!/bin/bash
 
-until [ -f ./docker-compose.yml ] || [[ $PWD == / ]]; do
+until [[ -f ./docker-compose.yml ]] || [[ $PWD == / ]]; do
   cd ..
 done
 
