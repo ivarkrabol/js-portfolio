@@ -1,33 +1,15 @@
-image: docker
-
-services:
-  - 'docker:dind'
-
 stages:
   - build
   - deploy
 
-closure-compiler:
-  stage: build
-  script:
-    - apk update && apk add --no-cache py-pip
-    - pip install docker-compose
-    - mkdir out
-    - sed -i 's#- closure-out#- ./out#' docker-compose.yml
-    - docker-compose run closure-compiler
-  artifacts:
-    paths:
-      - out/main.js
-  only:
-    - master
-
 deploy:
   stage: deploy
   script:
+    - mkdir up
+    - mv index.html src up/
     - apk update && apk add --no-cache sshpass openssh
     - sshpass -V
     - export SSHPASS=$USER_PASS
-    - sshpass -e scp -o stricthostkeychecking=no index.html ivar@scp.domeneshop.no:/www/index.html
-    - sshpass -e scp -o stricthostkeychecking=no out/main.js ivar@scp.domeneshop.no:/www/out/main.js
-  dependencies:
-    - closure-compiler
+    - sshpass -e scp -o stricthostkeychecking=no up/ ivar@scp.domeneshop.no:/www/
+  only:
+    - master
