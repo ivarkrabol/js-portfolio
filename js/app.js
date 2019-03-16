@@ -1,4 +1,4 @@
-import Graphics from './graphics.js';
+import Graphics from './graphics/graphics.js';
 
 class App {
 	constructor(rootSelector, width, height, fps) {

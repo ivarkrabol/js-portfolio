@@ -1,5 +1,5 @@
 import Layer from './layer.js';
-import Time from './time.js';
+import Time from '../time.js';
 
 class Graphics {
 	constructor($root, width, height) {
