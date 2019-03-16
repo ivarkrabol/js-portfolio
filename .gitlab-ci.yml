@@ -5,6 +5,6 @@ deploy:
     - apk update && apk add --no-cache sshpass openssh
     - export SSHPASS=$USER_PASS
     - sshpass -e scp -o stricthostkeychecking=no -r index.html ivar@scp.domeneshop.no:/www/index.html
-    - sshpass -e scp -o stricthostkeychecking=no -r src/ ivar@scp.domeneshop.no:/www/src/
+    - sshpass -e scp -o stricthostkeychecking=no -r js/ ivar@scp.domeneshop.no:/www/js/
   only:
     - master
