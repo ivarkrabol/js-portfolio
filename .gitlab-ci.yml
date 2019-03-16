@@ -1,15 +1,10 @@
-stages:
-  - build
-  - deploy
-
 deploy:
-  stage: deploy
+  image: alpine
   script:
-    - mkdir up
-    - mv index.html src up/
+    - set -e
     - apk update && apk add --no-cache sshpass openssh
-    - sshpass -V
     - export SSHPASS=$USER_PASS
-    - sshpass -e scp -o stricthostkeychecking=no up/ ivar@scp.domeneshop.no:/www/
+    - sshpass -e scp -o stricthostkeychecking=no -r index.html ivar@scp.domeneshop.no:/www/index.html
+    - sshpass -e scp -o stricthostkeychecking=no -r src/ ivar@scp.domeneshop.no:/www/src/
   only:
     - master
