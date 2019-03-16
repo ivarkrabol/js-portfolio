@@ -1,19 +1,27 @@
 import Graphics from './graphics/graphics.js';
+import LayerUtils from './graphics/layer-utils.js';
 
 class App {
-	constructor(rootSelector, width, height, fps) {
-		this.rootElement = document.querySelector(rootSelector);
-		this.width = width;
-		this.height = height;
+	constructor(rootSelector, config) {
+		window.ø = config;
 
-		this.graphics = new Graphics(this.rootElement, width, height);
-		this.graphics.draw();
+		this.graphics = new Graphics(
+				document.querySelector(rootSelector)
+		);
 
-		this.updateInterval = setInterval(() => this.update(), 1000.0 / fps);
+		this.update();
+		setInterval(
+				() => this.update(),
+				1000.0 / config.fps
+		);
 	}
 
 	update() {
-		this.graphics.dialog('Hello world!\n============\nHome of Ivar. He codes.');
+		LayerUtils.dialog(
+				this.graphics.getLayer(1),
+				'Hello world!\n============\nHome of Ivar. He codes.'
+		);
+
 		this.graphics.draw();
 	}
 }
