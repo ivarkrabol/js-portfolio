@@ -8,7 +8,7 @@ class Graphics {
 
 		this.layers = new Map();
 		const background = new Layer();
-		background.setContent(0, 0, (' '.repeat(this.width) + '\n').repeat(this.height));
+		background.setContent((' '.repeat(this.width) + '\n').repeat(this.height).split('\n'));
 		this.layers.set(0, background);
 
 		this.$rows = [];

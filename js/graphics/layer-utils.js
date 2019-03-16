@@ -1,30 +1,35 @@
 import Time from '../time.js';
 
 class LayerUtils {
-	static frame(layer, x, y, width, height) {
+	static frame(layer, width, height, pos) {
 		const
 				offset = Math.floor(Time.getTime() * 4) % 4,
-				hr = '~¤~ ~¤~'.substr(offset, 4).repeat(width - 3),
-				top = '+' + hr.substr(0, width - 3) + '+\n',
-				middle = (
-						'|' + '\0'.repeat(width - 3) + '|\\\n').repeat(height - 3),
-				bottom = '+' + hr.substr(offset * 2, width - 3) + '+\\\n' + ' ' + '\\'.repeat(width - 1);
+				hr = '~¤~ ~¤~'.substr(offset, 4).repeat(width - 2),
+				content = Array(height + 1);
+
+		content[0] = '+' + hr.substr(0, width - 2) + '+';
+		content.fill('|' + '\0'.repeat(width - 2) + '|\\', 1, height - 1);
+		content[height - 1] = '+' + hr.substr(offset * 2, width - 2) + '+\\';
+		content[height] = ' ' + '\\'.repeat(width);
+
 		layer.setContent(
-				x,
-				y,
-				top + middle + bottom
+				content,
+				pos
 		);
 	}
 
 	static dialog(layer, text) {
-		const
-				x = Math.floor(window.ø.width / 2) - 23,
-				y = Math.floor(window.ø.height / 2) - 5;
-		this.frame(layer, x, y, 46, 8);
+		const lines = text.split('\n');
+		const textWidth = Math.max(...lines.map(l => l.length));
+		this.frame(
+				layer,
+				Math.max(textWidth + 6, 46),
+				Math.max(lines.length + 4, 7),
+				{my: 'center', at: 'center'}
+		);
 		layer.setContent(
-				x + 3,
-				y + 2,
-				text
+				[...lines, ' '.repeat(40)],
+				{my: 'center', at: 'center'}
 		);
 	}
 }
