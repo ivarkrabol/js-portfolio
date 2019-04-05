@@ -7,6 +7,10 @@ class Layer {
 		}
 	}
 
+	setTextContent(textContent, pos = {my: '', at: ''}) {
+		this.setContent(textContent.split('\n'), pos);
+	}
+
 	setContent(content, pos = {my: '', at: ''}) {
 		const
 				width = Math.max(...content.map(r => r.length)),
