@@ -1,7 +1,23 @@
 class Time {
+	static init(debug = false) {
+		Time.debug = debug;
+
+		Time._timeOffset = Date.now();
+		Time._deltaOffset = Time._timeOffset;
+		Time._ready = true;
+	}
+
 	static getTime() {
-		if (Time._timeOffset === undefined) Time._timeOffset = Date.now();
+		if (!Time._ready) Time.init();
 		return (Date.now() - Time._timeOffset) / 1000;
+	}
+
+	static getDeltaTime() {
+		if (!Time._ready) Time.init();
+		const deltaTime = Date.now() - Time._deltaOffset;
+		Time._deltaOffset += deltaTime;
+		if (Time.debug) console.log(`FPS: ${1000 / deltaTime}`);
+		return deltaTime / 1000;
 	}
 }
 

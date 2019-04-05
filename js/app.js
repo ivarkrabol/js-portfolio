@@ -1,5 +1,6 @@
 import Graphics from './graphics/graphics.js';
 import LayerUtils from './graphics/layer-utils.js';
+import Time from "./time.js";
 
 class App {
 	constructor(rootSelector, config) {
@@ -9,6 +10,7 @@ class App {
 				document.querySelector(rootSelector)
 		);
 
+		Time.init(true);
 		this.update();
 		setInterval(
 				() => this.update(),
@@ -23,6 +25,8 @@ class App {
 		);
 
 		this.graphics.draw();
+
+		Time.getDeltaTime();
 	}
 }
 
