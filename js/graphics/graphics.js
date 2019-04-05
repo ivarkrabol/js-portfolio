@@ -1,23 +1,25 @@
 import Layer from './layer.js';
+import Cell from './cell.js';
 
 class Graphics {
 	constructor($root) {
-		this.$root = $root;
-		this.width = window.ø.width;
-		this.height = window.ø.height;
+		this.width = Math.floor(window.ø.width);
+		// noinspection JSSuspiciousNameCombination
+		this.height = Math.floor(window.ø.height);
 
 		this.layers = new Map();
 		const background = new Layer();
 		background.setContent((' '.repeat(this.width) + '\n').repeat(this.height).split('\n'));
 		this.layers.set(0, background);
 
-		this.$rows = [];
+		this.$cells = [];
 		for (let i = 0; i < this.height; i++) {
-			const $row = document.createElement('div');
-			$row.cssClass = 'row';
-			$row.id = 'row_' + i;
-			this.$rows.push($row);
-			this.$root.appendChild(this.$rows[i]);
+			for (let j = 0; j < this.width; j++) {
+				const cell = new Cell((i * this.width) + j, j, i);
+				this.$cells.push(cell);
+				$root.appendChild(cell.$node);
+			}
+			$root.appendChild(document.createElement('br'));
 		}
 	}
 
@@ -31,36 +33,26 @@ class Graphics {
 
 	drawLayer(layer, updatedRows) {
 		for (let i = 0; i < this.height; i++) {
-			if ((updatedRows & (1 << i)) !== 0) {
-				this.drawLayerRow(i, layer.content[i]);
-			}
+			if ((updatedRows & (1 << i)) !== 0) this.drawLayerRow(i, layer.content[i]);
 		}
 	}
 
 	drawLayerRow(rowIndex, content) {
-		const
-				$row = this.$rows[rowIndex],
-				oldContent = $row.innerHTML;
-		let newContent = '';
 		for (let i = 0; i < this.width; i++) {
-			const contentChar = content.charAt(i);
-			if (contentChar === '') {
-				newContent += oldContent.substr(i);
-				break;
-			}
-			if (contentChar !== '\0') {
-				newContent += contentChar;
-			} else {
-				newContent += oldContent.charAt(i);
-			}
+			const
+					cell = this.getCell(i, rowIndex),
+					contentChar = content.charAt(i);
+			if (contentChar === '') break;
+			if (contentChar !== '\0') cell.$node.firstChild.data = contentChar;
 		}
-		$row.innerHTML = newContent;
+	}
+
+	getCell(x, y) {
+		return this.$cells[y * this.width + x];
 	}
 
 	getLayer(key) {
-		if (!this.layers.has(key)) {
-			this.layers.set(key, new Layer(this.height));
-		}
+		if (!this.layers.has(key)) this.layers.set(key, new Layer(this.height));
 		return this.layers.get(key);
 	}
 }
