@@ -3,8 +3,7 @@ import LayerUtils from './graphics/layer-utils.js';
 import Time from "./time.js";
 
 class App {
-	constructor(rootSelector, config) {
-		window.ø = config;
+	constructor(rootSelector) {
 		this.$root = document.querySelector(rootSelector);
 
 		this.graphics = new Graphics(this.$root);

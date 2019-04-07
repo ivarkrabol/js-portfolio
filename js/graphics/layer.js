@@ -2,7 +2,7 @@ class Layer {
 	constructor() {
 		this.content = [];
 		this.updatedRows = 0;
-		for (let i = 0; i < window.ø.height; i++) {
+		for (let i = 0; i < window.config.height; i++) {
 			this.content.push('');
 		}
 	}
@@ -15,7 +15,7 @@ class Layer {
 		const
 				width = Math.max(...content.map(r => r.length)),
 				myPos = Layer.decodePos(pos.my, width, content.length),
-				atPos = Layer.decodePos(pos.at, window.ø.width, window.ø.height),
+				atPos = Layer.decodePos(pos.at, window.config.width, window.config.height),
 				x = atPos.x - myPos.x,
 				y = atPos.y - myPos.y,
 				paddingSpaces = ' '.repeat(width);
