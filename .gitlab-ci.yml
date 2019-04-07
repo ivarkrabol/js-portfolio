@@ -2,7 +2,8 @@ deploy:
   image: alpine
   script:
     - set -e
-    - apk update && apk add --no-cache sshpass openssh
+    - apk update && apk add --no-cache sshpass openssh sed
+    - "sed -i 's/debug: true/debug: false/' js/config.js"
     - export SSHPASS=$USER_PASS
     - sshpass -e scp -o stricthostkeychecking=no index.html ivar@scp.domeneshop.no:/www/index.html
     - sshpass -e scp -o stricthostkeychecking=no -r js ivar@scp.domeneshop.no:/www/

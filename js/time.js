@@ -15,7 +15,7 @@ class Time {
 		if (!Time._ready) Time.init();
 		const deltaTime = Date.now() - Time._deltaOffset;
 		Time._deltaOffset += deltaTime;
-		if (window.config.debug) Time._fps = 1000 / deltaTime;
+		Time._fps = 1000 / deltaTime;
 		return deltaTime / 1000;
 	}
 }

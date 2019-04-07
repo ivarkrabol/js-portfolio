@@ -22,7 +22,7 @@ class App {
 				this.graphics.getLayer(1),
 				'Hello world!\n============\nHome of Ivar. He codes.'
 		);
-		this.graphics.getLayer(1).setTextContent(`FPS: ${Time._fps}`);
+		if (window.config.debug) this.graphics.getLayer(1).setTextContent(`FPS: ${Time._fps}`);
 
 		this.graphics.draw();
 
